@@ -710,11 +710,6 @@ h1, h2, h3, h4 {
   line-height: 1.75rem;
 }
 
-.text-lg{
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
 .font-bold{
   font-weight: 700;
 }
@@ -835,11 +830,6 @@ h1, h2, h3, h4 {
 
   .lg\:w-7\/12{
     width: 58.333333%;
-  }
-
-  .lg\:py-12{
-    padding-top: 3rem;
-    padding-bottom: 3rem;
   }
 
   .lg\:py-10{

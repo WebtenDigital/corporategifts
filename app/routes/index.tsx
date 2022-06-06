@@ -82,15 +82,21 @@ const herodata:Hero[]=[
 
 export default function Index() {
   const [currentIndex, setCurrentIndex]=useState(0);
-  if(currentIndex>2){
-    setCurrentIndex(0);
-  }
 
-  const heroitem=herodata[currentIndex];
+  let heroitem=herodata[currentIndex];
 
   useEffect(()=>{
-    //set interval here
-  }, []);
+    const intervalid=setInterval(()=>{
+      console.log(currentIndex);
+      if(currentIndex===2){
+        setCurrentIndex(0);
+      }
+      else{
+        setCurrentIndex(prevstate=>prevstate+1);
+      }
+    }, 5000);
+    return ()=>{clearInterval(intervalid)};
+  })
 
   return (
     <main className="pb-96">
