@@ -10,9 +10,27 @@ import heroboots from "../../public/images/hero-boots-tp.png"
 import herowear from "../../public/images/hero-wear-tp.png"
 import heroseal from "../../public/images/hero-seal-tp.png"
 
+import { db } from "~/utils/db.server";
 
 import CTA from "~/components/CTA";
 import { useEffect, useState } from "react";
+import { LoaderFunction } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
+import alldata from "~/sitedata/sitedata";
+
+type LoaderData={
+  id: string 
+  product_name: string 
+  category: string
+  image_url: string
+}
+
+//BACKEND
+export const loader:LoaderFunction=async function() {
+    const data=db.product.findMany();
+    return data;
+}
+
 
 type Hero={
   mainheading: string
@@ -77,17 +95,18 @@ const herodata:Hero[]=[
     ctatitle: "health & safety products",
     ctaurl: "#"
   }
-]
+];
 
 
 export default function Index() {
+  const productdata:LoaderData[]=useLoaderData();
+
   const [currentIndex, setCurrentIndex]=useState(0);
 
   let heroitem=herodata[currentIndex];
 
   useEffect(()=>{
     const intervalid=setInterval(()=>{
-      console.log(currentIndex);
       if(currentIndex===2){
         setCurrentIndex(0);
       }
@@ -166,6 +185,60 @@ export default function Index() {
                 </div>
               </div>
           </div>
+          }
+        </div>
+      </section>
+
+      {/* POPULAR PRODUCTS */}
+      <section className="py-10 w-11/12 mx-auto lg:py-2">
+        <h2 className="text-red-500 uppercase text-sm font-black tracking-tight lg:mt-16">What We Make</h2>
+        <div className="lg:w-11/12 lg:flex lg:justify-between lg:items-end">
+          <h1 className="text-4xl font-black lg:text-5xl">Popular Products</h1>
+          <div className="hidden lg:block"><CTA title="See All" linkurl="/products"/></div>
+        </div>
+        
+        <div className="w-10/12 mx-auto pt-8 grid grid-cols-2 gap-4 lg:w-full lg:grid lg:grid-cols-5 lg:pt-16">
+          {
+            productdata.slice(0,10).map(productitem=>{
+              return(
+                <Link to={`/products/${productitem.id}`} className="mb-4 lg:mb-8">
+                  <div className="p-2 h-28 w-28 bg-gray-100 rounded-2xl lg:h-40 lg:w-40 lg:rounded-3xl">
+                    <img src={productitem.image_url} alt={productitem.product_name} className=""/>
+                  </div>
+                  <p className="pt-2 font-archivo font-bold uppercase">{productitem.product_name}</p>
+                  <p className="text-sm text-gray-400 lowercase">{productitem.category}</p>
+                </Link>
+              )
+            })
+          }
+        </div>
+        <div className="w-10/12 mx-auto pt-10 lg:hidden"><div className="w-5/12 px-4 py-2 bg-gray-200 rounded-lg"><CTA title="See All" linkurl="/products"/></div></div>
+      </section>
+
+      {/* WHAT WE DO */}
+      <section className="py-10 my-10 bg-[#FAD355] lg:py-20">
+        <div className="w-11/12 mx-auto">
+          <h2 className="text-red-600 uppercase text-sm font-black tracking-tight">Our Services</h2>
+          <h1 className="text-4xl font-black lg:text-5xl">What We Do</h1>
+        </div>
+        <div className="w-11/12 mx-auto grid grid-cols-2 gap-4 items-end lg:flex lg:gap-28">
+          {
+            alldata.servicedata.map(serviceitem=>{
+              return(
+                <Link to="/services" className="mb-4">
+                  <div className="pb-3 flex justify-center lg:pb-6"><img src={serviceitem.image_url} alt={serviceitem.service_name} className={serviceitem.sizing}/></div>
+                  <p className="w-10/12 mx-auto py-1 text-center text-sm bg-white text-[#FAD355] font-bold rounded-lg uppercase lg:w-full lg:px-4 lg:hidden">{serviceitem.service_name}</p>
+                  <div className="hidden lg:block lg:flex items-center py-1 px-4 text-[#FAD355] bg-white rounded-xl">
+                    <p className="uppercase font-bold">{serviceitem.service_name}</p>
+                    <div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })
           }
         </div>
       </section>
