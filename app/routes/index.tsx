@@ -169,6 +169,7 @@ export default function Index() {
                   </p>
                   </div>
                   {/* right-button */}
+                  {/* pressure */}
                   <button className="text-yellow-400" onClick={()=>{
                     if(currentIndex<herodata.length-1){
                       setCurrentIndex(prevstate=>prevstate+1);
