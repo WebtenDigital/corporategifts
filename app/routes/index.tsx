@@ -9,6 +9,7 @@ import heroplaque from "../../public/images/hero-plaque-tp.png"
 import heroboots from "../../public/images/hero-boots-tp.png"
 import herowear from "../../public/images/hero-wear-tp.png"
 import heroseal from "../../public/images/hero-seal-tp.png"
+import richardoffice from "../../public/images/richardoffice.jpg"
 
 import { db } from "~/utils/db.server";
 
@@ -245,6 +246,39 @@ export default function Index() {
           }
         </div>
       </section>
+
+      {/* ABOUT US */}
+      <section className="w-11/12 mx-auto lg:w-10/12 lg:flex lg:gap-10 lg:justify-between lg:py-16">
+          <div id="left" className="hidden lg:block w-6/12 h-80 h-96">
+            <img src={richardoffice} alt="printing and branding" className="h-full w-full object-cover rounded-xl shadow-xl hover:cursor-pointer"/>
+          </div>
+          <div id="right" className="lg:w-6/12">
+            <h2 className="uppercase font-black tracking-tight">About Us</h2>
+            <div className="relative">
+            <h1 className="relative text-4xl text-red-500 font-black lg:hidden">We are <br/>a full-service branding and printing center.</h1>
+            <h1 className="hidden lg:block lg:relative text-4xl text-red-500 font-black lg:text-5xl">We are a full-service gifts, branding and printing center.</h1>
+              <div className="absolute right-0 bottom-1 lg:hidden">
+                <svg className="h-10 w-10 fill-gray-200" viewBox="0 -64 640 640" xmlns="http://www.w3.org/2000/svg"><path d="M240.6 194.1c1.9-30.8 17.3-61.2 44-79.8C279.4 103.5 268.7 96 256 96h-29.4l30.7-22c7.2-5.1 8.9-15.1 3.7-22.3l-9.3-13c-5.1-7.2-15.1-8.9-22.3-3.7l-32 22.9 11.5-30.6c3.1-8.3-1.1-17.5-9.4-20.6l-15-5.6c-8.3-3.1-17.5 1.1-20.6 9.4l-19.9 53-19.9-53.1C121 2.1 111.8-2.1 103.5 1l-15 5.6C80.2 9.7 76 19 79.2 27.2l11.5 30.6L58.6 35c-7.2-5.1-17.2-3.5-22.3 3.7l-9.3 13c-5.1 7.2-3.5 17.2 3.7 22.3l30.7 22H32c-17.7 0-32 14.3-32 32v352c0 17.7 14.3 32 32 32h168.9c-5.5-9.5-8.9-20.3-8.9-32V256c0-29.9 20.8-55 48.6-61.9zM224 480c0 17.7 14.3 32 32 32h160V384H224v96zm224 32h160c17.7 0 32-14.3 32-32v-96H448v128zm160-288h-20.4c2.6-7.6 4.4-15.5 4.4-23.8 0-35.5-27-72.2-72.1-72.2-48.1 0-75.9 47.7-87.9 75.3-12.1-27.6-39.9-75.3-87.9-75.3-45.1 0-72.1 36.7-72.1 72.2 0 8.3 1.7 16.2 4.4 23.8H256c-17.7 0-32 14.3-32 32v96h192V224h15.3l.7-.2.7.2H448v128h192v-96c0-17.7-14.3-32-32-32zm-272 0c-2.7-1.4-5.1-3-7.2-4.8-7.3-6.4-8.8-13.8-8.8-19 0-9.7 6.4-24.2 24.1-24.2 18.7 0 35.6 27.4 44.5 48H336zm199.2-4.8c-2.1 1.8-4.5 3.4-7.2 4.8h-52.6c8.8-20.3 25.8-48 44.5-48 17.7 0 24.1 14.5 24.1 24.2 0 5.2-1.5 12.6-8.8 19z"/></svg>
+              </div>
+            </div>
+            <p className="py-4 text-sm text-gray-800 text-justify lg:text-base lg:py-6">Set up in 2003, Corporate Gifts Limited is a printing, branding, embroidery company and major supplier of security products that handle all promotional and security needs from small, start-up enterprise – to global, multi-billion corporations. We also provide branded products to local councils, schools, charities, and sports clubs.</p>
+            <div className="pt-2 lg:hidden">
+              <img src={richardoffice} alt="printing and branding" className="rounded-xl shadow-xl hover:cursor-pointer"/>
+            </div>
+            <div className="pt-8 flex justify-center lg:hidden"><div className=" px-4 py-2 bg-gray-200 rounded-lg"><CTA title="About Us" linkurl="/about"/></div></div>
+            <div className="hidden lg:block lg:flex items-end gap-4 justify-end">
+              <CTA title="About Us" linkurl="/about"/>
+              <div className=""><Link to="/contact" className="flex items-end font-bold text-red-500">
+                <p>Contact Us</p>
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
+              </Link></div>
+            </div>
+          </div>
+        </section>
     </main>
   );
 }
