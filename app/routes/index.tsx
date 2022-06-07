@@ -25,6 +25,8 @@ type LoaderData={
   image_url: string
 }
 
+
+
 //BACKEND
 export const loader:LoaderFunction=async function() {
     const data=db.product.findMany();

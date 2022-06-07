@@ -1,18 +1,15 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-model Product {
-  id String @id @default(uuid())
-  product_name String 
-  category String
-  image_url String
+model product {
+  id           Int     @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  product_name String  @db.VarChar(45)
+  category     String  @db.VarChar(45)
+  image_url    String? @db.VarChar(200)
 }
