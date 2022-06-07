@@ -1,5 +1,7 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import styles from "./styles/app.css"
+import logo from "../../public/images/logo.png"
+
 
 import {
   Links,
@@ -16,8 +18,15 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export function links() {
-  return [{ rel: "stylesheet", href: styles }]
+export const links:LinksFunction=()=>{
+  return [
+    { rel: "stylesheet", href: styles },
+    {
+      rel: 'icon',
+      href: "https://res.cloudinary.com/geminy/image/upload/v1654619027/Corporate%20Gifts/products/logo_oflmbg.png",
+      type: "image/png",
+    }
+]
 }
 
 export default function App() {
