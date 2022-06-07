@@ -7,9 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model product {
+model products {
   id           Int     @id @unique(map: "id_UNIQUE") @default(autoincrement())
   product_name String  @db.VarChar(45)
   category     String  @db.VarChar(45)
+  image_url    String? @db.VarChar(200)
+}
+
+model services {
+  id           Int     @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  service_name String? @db.VarChar(45)
+  category     String? @db.VarChar(45)
   image_url    String? @db.VarChar(200)
 }

@@ -18,10 +18,18 @@ import { useEffect, useState } from "react";
 import { LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import alldata from "~/sitedata/sitedata";
+import Footer from "~/components/Footer";
 
-type LoaderData={
+type ProductData={
   id: string 
   product_name: string 
+  category: string
+  image_url: string
+}
+
+type ServiceData={
+  id: string 
+  service_name: string 
   category: string
   image_url: string
 }
@@ -30,8 +38,10 @@ type LoaderData={
 
 //BACKEND
 export const loader:LoaderFunction=async function() {
-    const data=db.product.findMany();
-    return data;
+  const productsdata=await db.products.findMany();
+  const servicesdata=await db.services.findMany();
+
+    return {productsdata, servicesdata};
 }
 
 
@@ -100,9 +110,14 @@ const herodata:Hero[]=[
   }
 ];
 
-
+//FRONTEND
 export default function Index() {
-  const productdata:LoaderData[]=useLoaderData();
+  const dbdata=useLoaderData();
+
+  const products_data: ProductData[]=dbdata.productsdata;
+  const services_data: ServiceData[]=dbdata.servicesdata;
+
+  // console.log("data whatwhat"+dbdata);
 
   const [currentIndex, setCurrentIndex]=useState(0);
 
@@ -121,7 +136,7 @@ export default function Index() {
   })
 
   return (
-    <main className="pb-96">
+    <main className="">
       <section id="hero" className="bg-gray-50">
         <div className="w-11/12 mx-auto lg:pt-4"><Nav/></div>
         <div id="hero-holder" className="w-11/12 mx-auto pt-8 pb-10 lg:py-10">
@@ -203,7 +218,7 @@ export default function Index() {
         
         <div className="w-10/12 mx-auto pt-8 grid grid-cols-2 gap-4 lg:w-full lg:grid lg:grid-cols-5 lg:pt-16">
           {
-            productdata.slice(0,10).map(productitem=>{
+            products_data.slice(0,10).map(productitem=>{
               return(
                 <Link to={`/products/${productitem.id}`} className="mb-4 lg:mb-8">
                   <div className="p-2 h-28 w-28 bg-gray-100 rounded-2xl lg:h-40 lg:w-40 lg:rounded-3xl">
@@ -279,6 +294,44 @@ export default function Index() {
             </div>
           </div>
         </section>
+
+        {/* POPULAR SERVICES */}
+        <section className="pt-16 w-11/12 mx-auto lg:py-2">
+          <h2 className="text-red-500 uppercase text-sm font-black tracking-tight lg:mt-16">What We Do</h2>
+          <div className="lg:w-11/12 lg:flex lg:justify-between lg:items-end">
+            <h1 className="text-4xl font-black lg:text-5xl">Popular Services</h1>
+            <div className="hidden lg:block"><CTA title="See All" linkurl="/services"/></div>
+          </div>
+        
+          <div className="w-10/12 mx-auto pt-8 grid grid-cols-2 gap-4 lg:w-full lg:grid lg:grid-cols-5 lg:pt-16">
+            {
+              services_data.slice(0,10).map(serviceitem=>{
+                return(
+                  <Link to={`/services/${serviceitem.id}`} className="mb-4 lg:mb-8">
+                    <div className="p-2 h-28 w-28 bg-gray-100 rounded-2xl lg:h-40 lg:w-40 lg:rounded-3xl">
+                      <img src={serviceitem.image_url} alt={serviceitem.service_name} className=""/>
+                    </div>
+                    <p className="pt-2 font-archivo font-bold uppercase">{serviceitem.service_name}</p>
+                    <p className="text-sm text-gray-400 lowercase">{serviceitem.category}</p>
+                  </Link>
+                )
+              })
+            }
+          </div>
+          <div className="w-10/12 mx-auto pt-10 lg:hidden"><div className="w-5/12 px-4 py-2 bg-gray-200 rounded-lg"><CTA title="See All" linkurl="/products"/></div></div>
+        </section>
+        
+        {/* LET'S TALK */}
+        <section className="py-10 mt-10 bg-[#FAD355] lg:py-20">
+          <div className="w-11/12 mx-auto">
+            <h1 className="text-4xl font-black lg:text-5xl lg:text-center">Let's Talk About What You Need</h1>
+            <p className="py-4 text-gray-700 text-sm text-justify lg:w-8/12 lg:mx-auto lg:py-8 lg:text-base">Need professional branding services, a gift for a special occasion or a set of health and safety equipment? We provide these and more. Send us an email today about what you need.</p>
+            <div className="flex justify-center"><CTA title="Get in Touch" linkurl="/contact"/></div>
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <Footer/>
     </main>
   );
 }
