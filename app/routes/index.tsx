@@ -11,14 +11,17 @@ import herowear from "../../public/images/hero-wear-tp.png"
 import heroseal from "../../public/images/hero-seal-tp.png"
 import richardoffice from "../../public/images/richardoffice.jpg"
 
-import { db } from "~/utils/db.server";
+// import { db } from "~/utils/db.server";
 
 import CTA from "~/components/CTA";
 import { useEffect, useState } from "react";
-import { LoaderFunction } from "@remix-run/node";
+import { json, LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import alldata from "~/sitedata/sitedata";
 import Footer from "~/components/Footer";
+import { fetchContentfulQuery } from "~/utils/query.server";
+import { Product } from "~/utils/products.server";
+import { Service } from "~/utils/services.server";
 
 type ProductData={
   id: string 
@@ -38,10 +41,17 @@ type ServiceData={
 
 //BACKEND
 export const loader:LoaderFunction=async function() {
-  const productsdata=await db.products.findMany();
-  const servicesdata=await db.services.findMany();
+  const queryres=await fetchContentfulQuery()
 
-    return {productsdata, servicesdata};
+  const allproducts=queryres.data.productCollection.items
+  const allservices=queryres.data.serviceCollection.items
+
+  return json({
+    data: {
+      allproducts: allproducts,
+      allservices: allservices
+    }
+  })
 }
 
 
@@ -110,12 +120,20 @@ const herodata:Hero[]=[
   }
 ];
 
+type LoaderData={
+  data: {
+    allproducts: Product[]
+    allservices: Service[]
+  }
+}
+
 //FRONTEND
 export default function Index() {
-  const dbdata=useLoaderData();
+  const loaderdata=useLoaderData<LoaderData>()
 
-  const products_data: ProductData[]=dbdata.productsdata;
-  const services_data: ServiceData[]=dbdata.servicesdata;
+  // const products_data: ProductData[]=dbdata.productsdata;
+  const allproducts=loaderdata.data.allproducts
+  const allservices=loaderdata.data.allservices
 
   // console.log("data whatwhat"+dbdata);
 
@@ -218,13 +236,13 @@ export default function Index() {
         
         <div className="w-10/12 mx-auto pt-8 grid grid-cols-2 gap-4 lg:w-full lg:grid lg:grid-cols-5 lg:pt-16">
           {
-            products_data.slice(0,10).map(productitem=>{
+            allproducts.slice(0,10).map(productitem=>{
               return(
-                <Link to={`/products/${productitem.id}`} className="mb-4 lg:mb-8">
+                <Link to={``} className="mb-4 lg:mb-8">
                   <div className="p-2 h-28 w-28 bg-gray-100 rounded-2xl lg:h-40 lg:w-40 lg:rounded-3xl">
-                    <img src={productitem.image_url} alt={productitem.product_name} className=""/>
+                    <img src={productitem.productImage.url} alt={productitem.productName} className=""/>
                   </div>
-                  <p className="pt-2 font-archivo font-bold uppercase">{productitem.product_name}</p>
+                  <p className="pt-2 font-archivo font-bold uppercase">{productitem.productName}</p>
                   <p className="text-sm text-gray-400 lowercase">{productitem.category}</p>
                 </Link>
               )
@@ -240,12 +258,14 @@ export default function Index() {
           <h2 className="text-red-600 uppercase text-sm font-black tracking-tight">Our Services</h2>
           <h1 className="text-4xl font-black lg:text-5xl">What We Do</h1>
         </div>
-        <div className="w-11/12 mx-auto grid grid-cols-2 gap-4 items-end lg:flex lg:gap-28">
+        <div className="pt-8 w-11/12 mx-auto grid grid-cols-2 gap-x-4 gap-y-8 items-end lg:flex lg:gap-28">
           {
             alldata.servicedata.map(serviceitem=>{
               return(
                 <Link to="/services" className="mb-4">
-                  <div className="pb-3 flex justify-center lg:pb-6"><img src={serviceitem.image_url} alt={serviceitem.service_name} className={serviceitem.sizing}/></div>
+                  <div className="pb-3 flex justify-center lg:pb-6">
+                    <div className="h-40 w-40 flex justify-center items-center bg-yellow-200 rounded-full lg:h-48 lg:w-48"><img src={serviceitem.image_url} alt={serviceitem.service_name} className={serviceitem.sizing}/></div>
+                  </div>
                   <p className="w-10/12 mx-auto py-1 text-center text-sm bg-white text-[#FAD355] font-bold rounded-lg uppercase lg:w-full lg:px-4 lg:hidden">{serviceitem.service_name}</p>
                   <div className="hidden lg:block lg:flex items-center py-1 px-4 text-[#FAD355] bg-white rounded-xl">
                     <p className="uppercase font-bold">{serviceitem.service_name}</p>
@@ -305,13 +325,13 @@ export default function Index() {
         
           <div className="w-10/12 mx-auto pt-8 grid grid-cols-2 gap-4 lg:w-full lg:grid lg:grid-cols-5 lg:pt-16">
             {
-              services_data.slice(0,10).map(serviceitem=>{
+              allservices.slice(0,10).map(serviceitem=>{
                 return(
-                  <Link to={`/services/${serviceitem.id}`} className="mb-4 lg:mb-8">
+                  <Link to={``} className="mb-4 lg:mb-8">
                     <div className="p-2 h-28 w-28 bg-gray-100 rounded-2xl lg:h-40 lg:w-40 lg:rounded-3xl">
-                      <img src={serviceitem.image_url} alt={serviceitem.service_name} className=""/>
+                      <img src={serviceitem.serviceImage.url} alt={serviceitem.serviceName} className=""/>
                     </div>
-                    <p className="pt-2 font-archivo font-bold uppercase">{serviceitem.service_name}</p>
+                    <p className="pt-2 font-archivo font-bold uppercase">{serviceitem.serviceName}</p>
                     <p className="text-sm text-gray-400 lowercase">{serviceitem.category}</p>
                   </Link>
                 )

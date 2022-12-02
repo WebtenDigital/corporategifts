@@ -1,7 +1,7 @@
-import gifts from '../../public/images/gifts-vector-tp.png'
-import branding from '../../public/images/branding-tp.png'
-import sign from '../../public/images/sign-tp.png'
-import vest from '../../public/images/vest-tp.png'
+import gifts from '../images/hamp-tp.png'
+import branding from '../images/coffee-tp.png'
+import sign from '../images/road-tp.png'
+import vest from '../images/jacket-tp.png'
 
 
 
@@ -15,22 +15,22 @@ const servicedata:Service[]=[
   {
     service_name: "Gifts",
     image_url: gifts,
-    sizing: "h-28 w-28 lg:h-48 lg:w-48"
+    sizing: "h-28 lg:h-40"
   },
   {
     service_name: "Branding",
     image_url: branding,
-    sizing: "h-16 w-16 lg:h-36 lg:w-36"
+    sizing: "h-28 lg:h-36"
   },
   {
     service_name: "Signage",
     image_url: sign,
-    sizing: "h-28 w-28 lg:h-36 lg:w-36"
+    sizing: "h-28 lg:h-36"
   },
   {
     service_name: "Health & Safety",
     image_url: vest,
-    sizing: "h-20 w-20 lg:h-36 lg:w-36"
+    sizing: "h-28 lg:h-36"
   }
 ]
 
